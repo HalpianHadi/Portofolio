@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap">
+    <style>
+        :root {
+            --primary: #00b7ff;
+            --secondary: #000000;
+            --accent: #00ffff;
+        }
+        
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background: 
+                radial-gradient(circle at 20% 30%, #111111 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, #222222 0%, transparent 50%),
+                linear-gradient(135deg, #000000 0%, #111111 100%);
+            min-height: 100vh;
+            color: var(--primary);
+            overflow: hidden;
+            perspective: 1000px;
+        }
+        
+        .login-container {
+            transform-style: preserve-3d;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotateX(5deg) rotateY(-5deg);
+            }
+            50% {
+                transform: translateY(-20px) rotateX(-5deg) rotateY(5deg);
+            }
+        }
+        
+        .input-field {
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+        
+        .input-field:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+            transform: translateZ(10px);
+        }
+        
+        .btn-login {
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.1) 0%, rgba(0, 255, 255, 0.3) 100%);
+            border: 1px solid var(--accent);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-login::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(transparent, rgba(0, 255, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s ease;
+        }
+        
+        .btn-login:hover::before {
+            left: 100%;
+        }
+        
+        .btn-login:hover {
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.4);
+            text-shadow: 0 0 10px var(--accent);
+        }
+        
+        .cube {
+            transform-style: preserve-3d;
+            animation: rotate 20s linear infinite;
+        }
+        
+        @keyframes rotate {
+            0% {
+                transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+            }
+            100% {
+                transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg);
+            }
+        }
+        
+        .face {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(0, 0, 0, 0.4);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2) inset;
+        }
+        
+        .face-front {
+            transform: translateZ(50px);
+        }
+        .face-back {
+            transform: translateZ(-50px) rotateY(180deg);
+        }
+        .face-right {
+            transform: translateX(50px) rotateY(90deg);
+        }
+        .face-left {
+            transform: translateX(-50px) rotateY(-90deg);
+        }
+        .face-top {
+            transform: translateY(-50px) rotateX(90deg);
+        }
+        .face-bottom {
+            transform: translateY(50px) rotateX(-90deg);
+        }
+        
+        .grid-pattern {
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 
+                100px 100px,
+                100px 100px,
+                20px 20px,
+                20px 20px;
+        }
+        
+        .pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+    </style>
+</head>
+<body class="grid-pattern relative h-screen flex items-center justify-center">
+    <!-- Background effects -->
+    <div class="scanlines"></div>
+    
+    <!-- Background cubes -->
+    <div class="absolute -left-20 -bottom-20 opacity-20">
+        <div class="cube relative w-32 h-32">
+            <div class="face face-front"></div>
+            <div class="face face-back"></div>
+            <div class="face face-right"></div>
+            <div class="face face-left"></div>
+            <div class="face face-top"></div>
+            <div class="face face-bottom"></div>
+        </div>
+    </div>
+    
+    <div class="absolute -right-20 -top-20 opacity-20">
+        <div class="cube relative w-48 h-48">
+            <div class="face face-front"></div>
+            <div class="face face-back"></div>
+            <div class="face face-right"></div>
+            <div class="face face-left"></div>
+            <div class="face face-top"></div>
+            <div class="face face-bottom"></div>
+        </div>
+    </div>
+    
+    <!-- Main login container -->
+    <div class="login-container relative z-10 w-full max-w-md px-8 py-10 rounded-xl backdrop-blur-sm bg-black bg-opacity-50 border border-gray-800 shadow-2xl">
+        <div class="text-center mb-10">
+            <div class="text-4xl font-bold tracking-widest mb-2"><span class="text-cyan-400">LOGIN</span></div>
+            <div class="text-xs tracking-widest text-gray-400">AUTHENTICATION PORTAL</div>
+        </div>
+        
+        <form id="loginForm" class="space-y-6">
+            <div>
+                <label for="username" class="block text-sm font-medium text-gray-300 mb-1">USER ID</label>
+                <div class="relative">
+                    <input 
+                        type="text" 
+                        id="username" 
+                        placeholder="Enter your ID" 
+                        class="input-field w-full px-4 py-3 rounded-lg text-white focus:outline-none focus:ring-1 focus:ring-cyan-400 pl-12 transition-all duration-300"
+                        required
+                    >
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <svg class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                    </div>
+                    <div class="absolute bottom-0 left-0 w-0 h-0.5 bg-cyan-400 transition-all duration-500"></div>
+                </div>
+            </div>
+            
+            <div>
+                <label for="password" class="block text-sm font-medium text-gray-300 mb-1">PASSWORD</label>
+                <div class="relative">
+                    <input 
+                        type="password" 
+                        id="password" 
+                        placeholder="Enter your password" 
+                        class="input-field w-full px-4 py-3 rounded-lg text-white focus:outline-none focus:ring-1 focus:ring-cyan-400 pl-12 transition-all duration-300"
+                        required
+                    >
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <svg class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
+                    </div>
+                    <div class="absolute bottom-0 left-0 w-0 h-0.5 bg-cyan-400 transition-all duration-500"></div>
+                </div>
+            </div>
+            
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <input 
+                        id="remember" 
+                        type="checkbox" 
+                        class="h-4 w-4 text-cyan-400 focus:ring-cyan-400 border-gray-600 rounded bg-gray-800"
+                    >
+                    <label for="remember" class="ml-2 block text-sm text-gray-300">Remember session</label>
+                </div>
+                <a href="#" class="text-xs text-cyan-400 hover:text-cyan-300">Forgot password?</a>
+            </div>
+            
+            <div>
+                <button type="submit" class="btn-login w-full py-3 px-4 rounded-lg font-bold tracking-wider text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-cyan-400 transition duration-500">
+                    <span class="relative z-10">AUTHENTICATE</span>
+                    <span class="absolute right-4 top-1/2 transform -translate-y-1/2">
+                        <svg class="w-5 h-5 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
+                        </svg>
+                    </span>
+                </button>
+            </div>
+        </form>
+        
+        <div class="mt-8 text-center text-xs text-gray-400">
+            NEW USER? <a href="#" class="text-cyan-400 hover:text-cyan-300">REQUEST ACCESS</a>
+        </div>
+    </div>
+    
+    <div class="absolute bottom-4 right-4 text-xs text-gray-500 pulse">
+        SYSTEM READY
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('.input-field');
+            
+            inputs.forEach(input => {
+                // Add floating animation on focus
+                input.addEventListener('focus', function() {
+                    this.parentElement.querySelector('div.absolute.bottom-0').classList.add('w-full');
+                });
+                
+                // Remove animation when not focused but only if empty
+                input.addEventListener('blur', function() {
+                    if(this.value === '') {
+                        this.parentElement.querySelector('div.absolute.bottom-0').classList.remove('w-full');
+                    }
+                });
+            });
+            
+            // Form submission
+            const form = document.getElementById('loginForm');
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form values
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                
+                // Here you would typically send the data to a server
+                console.log('Login attempted with:', { username, password });
+                
+                // Add loading effect
+                const btn = document.querySelector('.btn-login');
+                btn.innerHTML = '<span class="relative z-10">PROCESSING...</span><span class="absolute right-4 top-1/2 transform -translate-y-1/2"><svg class="w-5 h-5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg></span>';
+                btn.disabled = true;
+                
+                // Simulate API call
+                setTimeout(() => {
+                    btn.innerHTML = '<span class="relative z-10">ACCESS GRANTED</span><span class="absolute right-4 top-1/2 transform -translate-y-1/2"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></span>';
+                    
+                    // Redirect after successful login
+                    setTimeout(() => {
+                        window.location.href = "dashboard.html"; // Change to your dashboard page
+                    }, 1000);
+                }, 2000);
+            });
+            
+            // 3D effect on mouse move
+            const loginContainer = document.querySelector('.login-container');
+            document.addEventListener('mousemove', (e) => {
+                const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+                const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+                loginContainer.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            });
+        });
+    </script>
+</body>
+</html>
